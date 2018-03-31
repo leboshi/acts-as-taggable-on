@@ -197,13 +197,13 @@ module ActsAsTaggableOn::Taggable
       if changed_attributes.include?(attrib)
         # The attribute already has an unsaved change.
         old = changed_attributes[attrib]
-        @changed_attributes.delete(attrib) if old.to_s == value.to_s
+        @cached_changed_attributes.delete(attrib) if old.to_s == value.to_s
       else
         old = tag_list_on(context)
         if self.class.preserve_tag_order
-          @changed_attributes[attrib] = old if old.to_s != value.to_s
+          @cached_changed_attributes[attrib] = old if old.to_s != value.to_s
         else
-          @changed_attributes[attrib] = old.to_s if old.sort != ActsAsTaggableOn.default_parser.new(value).parse.sort
+          @cached_changed_attributes[attrib] = old.to_s if old.sort != ActsAsTaggableOn.default_parser.new(value).parse.sort
         end
       end
     end
